@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First page</title>
+    <style>
+        div { margin: 80px; background-color: white ;font-size: 40px; color: red}
+    </style>
+</head>
+<body>
+    <div class = 'div'>
+        {% for product in products %}
+            {% if product.size >= 40 %}
+                <p>{{ product.title }}</p>
+                <p>Opisanie</p>
+                <p>{{ product.description }}</p>
+                <img src="{{ product.image.url }}">
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
