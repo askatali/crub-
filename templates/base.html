@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First page</title>
+    <style>
+        div {margin: 80px; background-color: white; font-size: 40px; color: red; display: contents}
+        img {width: 400px; height: 400px}
+    </style>
+</head>
+<body>
+    <div class="div">
+    {% block content %}
+    {% endblock content %}
+    </div>
+
+</body>
+</html>
