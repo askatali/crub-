@@ -2,7 +2,7 @@
 {% block content %}
     <ul>
         {% for product in products %}
-        <li><a href="{% url 'detail' product.pk %}">{{ product.title }}</a></li>
+            <li><a href="{% url 'detail' product.pk %}">{{ product.title }}</a></li>
         {% endfor %}
     </ul>
 {% endblock content %}
