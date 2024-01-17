@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # apps
     'product',
+    'asmovie',
 ]
 
 MIDDLEWARE = [

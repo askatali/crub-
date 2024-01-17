@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Product(models.Model):
+
     title = models.CharField(max_length=256, verbose_name='Название')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена')
