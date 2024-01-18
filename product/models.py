@@ -8,6 +8,8 @@ class Product(models.Model):
     size = models.IntegerField(default=38, verbose_name='Размер')
     color = models.CharField(max_length=256, verbose_name='Цвет')
     image = models.ImageField(upload_to='product_images', verbose_name='Фото')
+    update = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Продукт'
