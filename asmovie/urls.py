@@ -1,8 +1,8 @@
 from django.urls import path
-from product.views import ProductListView, ProductDetailView
-from asmovie.views import MovieView
+from asmovie.views import MovieDetail, MovieList
 
 urlpatterns = [
-    path('kino/',MovieView.as_view(), name='kino'),
+    path('kino/', MovieList.as_view(), name='kino'),
+    path('detail/<int:id>/', MovieDetail.as_view(), name= '')
 
 ]
