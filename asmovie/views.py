@@ -1,20 +1,32 @@
 from django.shortcuts import render
 from asmovie.models import Movie
-from django.views.generic import TemplateView
+from asmovie.pagination import MoviePagination
 from asmovie.serializers import MovieSerializer
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from rest_framework.generics import UpdateAPIView
 
 
-class MovieList(APIView):
+
+class MovieList(GenericAPIView):
     permission_classes = (AllowAny,)
+    pagination_class = MoviePagination
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
 
-    def get(request, *args, **kwargs):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get(self, request):
+        page = self.paginate_queryset(self.get_queryset())
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            data = serializer.data
+        return Response(data)
 
 
 class MovieDetail(APIView):
@@ -36,6 +48,7 @@ class MovieCreateView(APIView):
 
         # Method 1
         serializer.save(movie_age=39)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         # Method 2
         # Movie.objects.create(**serializer.validated_data, movie_age=39)
@@ -49,4 +62,17 @@ class MovieCreateView(APIView):
         #     time=serializer.validated_data['time'],
         #     genre=serializer.validated_data['genre']
         # )
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+
+class MovieUpdateView(UpdateAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
+
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = MovieSerializer(instance, request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data,status=status.HTTP_200_OK)
